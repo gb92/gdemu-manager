@@ -11,52 +11,50 @@ import path from "path";
 import { StepOne } from "./components/stepone";
 import { StepTwo } from "./components/steptwo";
 import nodeguiIcon from "../assets/nodegui.jpg";
+import { useTranslation } from "react-i18next";
+import ErrorBoundary from "./ErrorBoundary";
+import useFilePicker from "./hooks/useFilePicker";
 
 const minSize = { width: 500, height: 520 };
 const winIcon = new QIcon(path.resolve(__dirname, nodeguiIcon));
-const App = () => {
-  const [selectedFiles, setSelectedFiles] = useState<string[]>();
 
-  const filePicker = useMemo(() => {
-    const picker = new QFileDialog();
-
-    picker.setFileMode(FileMode.Directory);
-    picker.setAcceptMode(AcceptMode.AcceptOpen);
-    return picker;
-  }, []);
+function App() {
+  const { t } = useTranslation();
+  const { selectedFiles, openPicker } = useFilePicker();
 
   const menuAction = useMemo(() => {
     const action = new QAction();
     action.setText("Open");
 
     action.addEventListener("triggered", () => {
-      filePicker.exec();
-      setSelectedFiles(filePicker.selectedFiles());
+      openPicker();
     });
     return action;
-  }, [filePicker]);
+  }, [openPicker]);
 
   const menuActions = useMemo(() => [menuAction], [menuAction]);
   return (
     <Window
       windowIcon={winIcon}
-      windowTitle="gdemu-sdcard-manager"
+      windowTitle={t("gdemu-sdcard-manager")}
       minSize={minSize}
       styleSheet={styleSheet}
     >
-      <MenuBar nativeMenuBar={true}>
-        <Menu title="File" actions={menuActions} />
-      </MenuBar>
-      <View style={containerStyle}>
-        <Text id="welcome-text">Welcome to NodeGui 🐕</Text>
-        <Text id="step-1">1. Play around</Text>
-        <StepOne />
-        <Text id="step-2">{selectedFiles?.join(",")}</Text>
-        <StepTwo />
-      </View>
+      <ErrorBoundary>
+        <MenuBar nativeMenuBar={true}>
+          <Menu title="File" actions={menuActions} />
+        </MenuBar>
+        <View style={containerStyle}>
+          <Text id="welcome-text">{t("title") as string}</Text>
+          <Text id="step-1">1. Play around</Text>
+          <StepOne />
+          <Text id="step-2">{selectedFiles?.join(",")}</Text>
+          <StepTwo />
+        </View>
+      </ErrorBoundary>
     </Window>
   );
-};
+}
 
 const containerStyle = `
   flex: 1; 

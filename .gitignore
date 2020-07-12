@@ -1,4 +1,5 @@
 node_modules
 dist/
-*.lognode_modules/
+*.log
+node_modules/
 coverage/
