@@ -1,8 +1,19 @@
-import { useState, useMemo, useCallback } from "react";
+import { useMemo, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { FileMode, AcceptMode, QFileDialog } from "@nodegui/nodegui";
+import { useTypedSelector } from "../store";
+import { actions } from "../store/folders";
+
+const useSelectedFiles = () => {
+  return useTypedSelector((state) => {
+    console.log(state);
+    return state?.folders?.selectedFolders;
+  });
+};
 
 const useFilePicker = () => {
-  const [selectedFiles, setSelectedFiles] = useState<string[]>();
+  const selectedFiles = useSelectedFiles();
+  const dispatch = useDispatch();
 
   const filePicker = useMemo(() => {
     const picker = new QFileDialog();
@@ -14,8 +25,8 @@ const useFilePicker = () => {
 
   const openPicker = useCallback(() => {
     filePicker.exec();
-    setSelectedFiles(filePicker.selectedFiles());
-  }, [filePicker]);
+    dispatch(actions.SET_SELECTED_FOLDER(filePicker.selectedFiles()));
+  }, [filePicker, dispatch]);
 
   return { selectedFiles, openPicker };
 };
