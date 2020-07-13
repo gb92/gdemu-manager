@@ -1,22 +1,14 @@
 import { Text, Window, hot, View, Menu, MenuBar } from "@nodegui/react-nodegui";
-import React, { useState, useMemo } from "react";
-import {
-  QIcon,
-  QAction,
-  QFileDialog,
-  FileMode,
-  AcceptMode,
-} from "@nodegui/nodegui";
+import React, { useMemo } from "react";
+import { QIcon, QAction } from "@nodegui/nodegui";
 import path from "path";
-import { StepOne } from "./components/stepone";
-import { StepTwo } from "./components/steptwo";
-import nodeguiIcon from "../assets/nodegui.jpg";
+import gdromLogo from "./static/assets/GD-ROM_logo.png";
 import { useTranslation } from "react-i18next";
 import ErrorBoundary from "./ErrorBoundary";
 import useFilePicker from "./hooks/useFilePicker";
 
 const minSize = { width: 500, height: 520 };
-const winIcon = new QIcon(path.resolve(__dirname, nodeguiIcon));
+const winIcon = new QIcon(path.resolve(__dirname, gdromLogo));
 
 function App() {
   const { t } = useTranslation();
@@ -47,9 +39,7 @@ function App() {
         <View style={containerStyle}>
           <Text id="welcome-text">{t("title") as string}</Text>
           <Text id="step-1">1. Play around</Text>
-          <StepOne />
           <Text id="step-2">{selectedFiles?.join(",")}</Text>
-          <StepTwo />
         </View>
       </ErrorBoundary>
     </Window>
