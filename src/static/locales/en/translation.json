@@ -1,4 +1,11 @@
 {
+  "Choose Folder": "Choose Folder",
+  "Choose Input Folder": "Choose Input Folder",
+  "Choose Output Folder": "Choose Output Folder",
+  "File Path": "File Path",
+  "Input Folder": "Input Folder",
+  "Output Folder": "Output Folder",
+  "Welcome to gdemu-manager": "Welcome to gdemu-manager",
   "gdemu-sdcard-manager": "gdemu-sdcard-manager",
   "title": "title"
 }

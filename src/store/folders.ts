@@ -4,19 +4,21 @@ import { findDiscImagesInFolder } from "../game_management/FindDiscImagesInFolde
 export const FOLDERS_NAME = "folders";
 
 export interface FolderState {
-  selectedFolders: string[];
+  selectedInputFolder?: string;
   imageFiles: string[];
+  selectedOutputFolder?: string;
 }
 
 const initialState: FolderState = {
-  selectedFolders: [],
+  selectedInputFolder: undefined,
+  selectedOutputFolder: undefined,
   imageFiles: [],
 };
 
 export const updateImageFiles = createAsyncThunk(
   "updateImageFiles",
-  (selectedFolders: string[], thunkAPI) => {
-    return findDiscImagesInFolder(selectedFolders[0]);
+  (selectedFolder: string, thunkAPI) => {
+    return findDiscImagesInFolder(selectedFolder);
   }
 );
 
@@ -24,10 +26,13 @@ export const { actions, reducer } = createSlice({
   name: FOLDERS_NAME,
   initialState,
   reducers: {
-    setSelectedFolder: (state, action: PayloadAction<string[]>) => {
-      state.selectedFolders = action.payload;
+    setSelectedInputFolder: (state, action: PayloadAction<string>) => {
+      state.selectedInputFolder = action.payload;
     },
-    setGDIFiles: (state, action: PayloadAction<string[]>) => {
+    setSelectedOutputFolder: (state, action: PayloadAction<string>) => {
+      state.selectedOutputFolder = action.payload;
+    },
+    setImageFiles: (state, action: PayloadAction<string[]>) => {
       state.imageFiles = action.payload;
     },
   },

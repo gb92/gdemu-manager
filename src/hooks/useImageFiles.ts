@@ -1,6 +1,7 @@
-import { useMemo, useCallback } from "react";
 import { useTypedSelector } from "../store";
 
-export const useImageFiles = () => {
+const useImageFiles = () => {
   useTypedSelector((state) => state.folders.imageFiles);
 };
+
+export default useImageFiles;

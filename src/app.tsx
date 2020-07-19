@@ -5,26 +5,32 @@ import path from "path";
 import gdromLogo from "./static/assets/GD-ROM_logo.png";
 import { useTranslation } from "react-i18next";
 import ErrorBoundary from "./ErrorBoundary";
-import useFilePicker from "./hooks/useFilePicker";
+import useInputFolderPicker from "./hooks/useInputFolderPicker";
+import FolderInputs from "./components/FolderInputs";
+import useOutputFolderPicker from "./hooks/useOutputFolderPicker";
 
 const minSize = { width: 500, height: 520 };
 const winIcon = new QIcon(path.resolve(__dirname, gdromLogo));
 
 function App() {
   const { t } = useTranslation();
-  const { selectedFiles, openPicker } = useFilePicker();
+  const { openPicker: openInputPicker } = useInputFolderPicker();
+  const { openPicker: openOutputPicker } = useOutputFolderPicker();
 
-  const menuAction = useMemo(() => {
-    const action = new QAction();
-    action.setText("Open");
-
-    action.addEventListener("triggered", () => {
-      openPicker();
+  const menuActions = useMemo(() => {
+    const inputAction = new QAction();
+    inputAction.setText(t("Choose Input Folder"));
+    inputAction.addEventListener("triggered", () => {
+      openInputPicker();
     });
-    return action;
-  }, [openPicker]);
+    const outputAction = new QAction();
+    outputAction.setText(t("Choose Output Folder"));
+    outputAction.addEventListener("triggered", () => {
+      openOutputPicker();
+    });
+    return [inputAction, outputAction];
+  }, [t, openOutputPicker, openInputPicker]);
 
-  const menuActions = useMemo(() => [menuAction], [menuAction]);
   return (
     <Window
       windowIcon={winIcon}
@@ -37,9 +43,10 @@ function App() {
           <Menu title="File" actions={menuActions} />
         </MenuBar>
         <View style={containerStyle}>
-          <Text id="welcome-text">{t("title") as string}</Text>
-          <Text id="step-1">1. Play around</Text>
-          <Text id="step-2">{selectedFiles?.join(",")}</Text>
+          <Text id="welcome-text">
+            {t("Welcome to gdemu-manager") as string}
+          </Text>
+          <FolderInputs />
         </View>
       </ErrorBoundary>
     </Window>

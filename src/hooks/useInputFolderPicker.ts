@@ -4,15 +4,15 @@ import { FileMode, AcceptMode, QFileDialog } from "@nodegui/nodegui";
 import { useTypedSelector } from "../store";
 import { actions, updateImageFiles } from "../store/folders";
 
-export const useSelectedFiles = () => {
+export const useSelectedInputFolder = () => {
   return useTypedSelector((state) => {
     console.log(state);
-    return state?.folders?.selectedFolders;
+    return state?.folders?.selectedInputFolder;
   });
 };
 
-const useFilePicker = () => {
-  const selectedFiles = useSelectedFiles();
+const useInputFolderPicker = () => {
+  const selectedInputFolder = useSelectedInputFolder();
   const dispatch = useDispatch();
 
   const filePicker = useMemo(() => {
@@ -26,11 +26,14 @@ const useFilePicker = () => {
   const openPicker = useCallback(() => {
     filePicker.exec();
     const selectedFiles = filePicker.selectedFiles();
-    dispatch(actions.setSelectedFolder(selectedFiles));
-    dispatch(updateImageFiles(selectedFiles));
+
+    // For now choose the first of the selected files
+    const selectedFile = selectedFiles[0];
+    dispatch(actions.setSelectedInputFolder(selectedFile));
+    dispatch(updateImageFiles(selectedFile));
   }, [filePicker, dispatch]);
 
-  return { selectedFiles, openPicker };
+  return { selectedInputFolder, openPicker };
 };
 
-export default useFilePicker;
+export default useInputFolderPicker;

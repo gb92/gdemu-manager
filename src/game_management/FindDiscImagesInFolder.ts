@@ -1,6 +1,5 @@
 import { readdirAsync, statAsync, getFileExtension } from "./fs";
 import * as path from "path";
-import { stat } from "fs";
 
 const imageFileTypes = ["cdi", "gdi"];
 

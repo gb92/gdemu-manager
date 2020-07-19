@@ -8,6 +8,8 @@
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.7.7",
     "@nodegui/nodegui": "^0.24.0",
+    "@nodegui/packer": "^1.4.1",
+    "@nodegui/qode": "^2.1.0",
     "@nodegui/react-nodegui": "0.8.0",
     "@reduxjs/toolkit": "^1.4.0",
     "@types/node": "^12.12.22",
